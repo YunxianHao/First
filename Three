@@ -1,0 +1,34 @@
+#include<stdio.h>
+int main()
+{
+	int arr[100];
+	int i, j, n, a;
+	printf("Please enter the length of the number string\n");
+	scanf_s("%d", &n);
+	printf("Please enter a string of numbers\n");
+	for (i = 0; i < n; i++)
+	{
+		scanf_s("%d", &arr[i]);
+	}
+	printf("Please input thr number you want to delete\n");
+	scanf_s("%d", &a);
+	for (i = 0; i < n; i++)
+	{
+		c:
+		if (arr[i] == a)
+		{
+			for (j=i; j < n-1; j++)
+			{
+				arr[j] = arr[j + 1];
+			}
+			n--;
+			goto c;
+		}
+	}
+	printf("There are %d numbers after deleting\n", n);
+	for (i = 0; i < n; i++)
+	{
+		printf("%d", arr[i]);
+	}
+	return 0;
+}
