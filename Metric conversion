@@ -1,0 +1,57 @@
+#include<stdio.h>
+int main()
+{
+	int a, i, k = 0, m = 0;
+	scanf_s("%d", &a);
+	int num[50];
+	char arr[50];
+	while (a)
+	{
+		num[k++] = a % 16;
+		a = a / 16;
+	}
+	for (i = 0; i < k; i++)
+	{
+		if (num[i] >= 0 && num[i] <= 9)
+		{
+			arr[m++] = arr[i] + 48;
+		}
+		if (num[i] > 9)
+		{
+			switch (num[i]-10)
+			{
+			case 0:
+			{
+				arr[m++] = 'A';
+			}
+			case 1:
+			{
+				arr[m++] = 'B';
+			}
+			case 2:
+			{
+				arr[m++] = 'C';
+
+			}
+			case 3:
+			{
+				arr[m++] = 'D';
+				break;
+			}
+			case 4:
+			{
+				arr[m++] = 'E';
+				break;
+			}
+			case 5:
+			{
+				arr[m++] = 'F';
+				break;
+			}
+			}
+		}
+	}
+
+	return 0;
+
+}
