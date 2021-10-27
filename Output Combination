@@ -1,0 +1,34 @@
+#include<stdio.h>
+int Com2(int m)
+{
+	if (m == 0 || m == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return m * Com2(m - 1);
+	}
+}
+int Combination(int m, int n)
+{
+	if (m == n || n == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return Com2(m) / (Com2(n) * Com2(m - n));
+	}
+}
+int main()
+{
+	int m, n, c;
+	printf("Please enter the m and n\n");
+	scanf_s("%d%d", &m, &n);
+	int Combination(int m, int n);
+	int Com2(int m);
+	c = Combination(m, n);
+	printf("%d", c);
+	return 0;
+}
