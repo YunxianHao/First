@@ -1,0 +1,33 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int arr[] = { 12,24,26,28,29,30,44,98 };
+	int i, k = 0;
+	printf("Please enter an number you want to search\n");
+	scanf_s("%d", &k);
+	int left = 0;
+	int right = sz - 1;
+	while (left <= right)
+	{
+		int mid = (left + right) / 2;
+		if (arr[mid]>k)//
+		{
+			right = mid - 1;
+		}
+		else if(arr[mid]<k) 
+		{
+			left = mid + 1;
+		}
+		else
+		{
+			printf("Find it,its%d\n",mid);
+			break;
+		}
+	}
+	if (left > right)
+	{
+		printf("\n");
+	}
+	return 0;
+}
