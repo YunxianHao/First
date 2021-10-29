@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<time.h>
+#include<stdlib.h>
+int main()
+{
+	srand(time(NULL));
+	int r = rand() % 10000;
+	printf("Please guess the number\n");
+	int a;
+	while (1)
+	{
+		scanf_s("%d", &a);
+		if (r == a)
+		{
+			printf("Gueass it correctly,Congratuations!\n");
+			break;
+		}
+		else if(a>r)
+		{
+			printf("Bigger than answer,please try again\n");
+		}
+		else
+		{
+			printf("smaller than answer,please try again\n");
+		}
+	}
+	system("pause");
+	return 0;
+}
