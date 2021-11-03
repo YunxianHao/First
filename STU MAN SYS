@@ -1,0 +1,247 @@
+#include<stdio.h>
+#include<string.h>
+#define MAX 1000
+#define MAX_NAME 20
+#define MAX_SEX 5
+#define MAX_TEL 15
+#define MAX_ADDRESS 20
+
+struct Peoinfo
+{
+	char name[MAX_NAME];
+	int age;
+	char sex[MAX_SEX];
+	char tel[MAX_TEL];
+	char address[MAX_ADDRESS];
+};
+struct Contact
+{
+	struct Peoinfo date[MAX];
+	int size;
+};
+
+void InitContact(struct Contact* ps);
+void AddContact(struct Contact* ps);
+void meau()
+{
+	printf("**********************************************************\n");
+	printf("*********1.Add                2.Delete********************\n");
+	printf("*********3.show               4.modify********************\n");
+	printf("*********5.search             6.sort.*********************\n");
+	printf("************         0.exit      *************************\n");
+	printf("**********************************************************\n");
+}
+void InitContact(struct Contact* ps)
+{
+	memset(ps->date, 0, sizeof(ps->date));
+	ps->size = 0;
+}
+void AddContact(struct Contact* ps)
+{
+	if (ps->size == MAX)
+	{
+		printf("ͨѶ¼�������޷�����\n");
+	}
+	else
+	{
+		printf("����������\n");
+		scanf_s("%s", (ps->date[ps->size].name), 20);
+		printf("�������Ա�\n");
+		scanf_s("%s", ps->date[ps->size].sex, 5);
+		printf("����������\n");
+		scanf_s("%d", &(ps->date[ps->size].age));
+		printf("������绰\n");
+		scanf_s("%s", ps->date[ps->size].tel, 13);
+		printf("�������ַ\n");
+		scanf_s("%s", (ps->date[ps->size].address), 20);
+		ps->size++;
+		printf("¼�����\n");
+	}
+}
+void Showcontact(struct Contact* ps)
+{
+	int i = 0;
+	if (i == ps->size)
+	{
+		printf("ͨѶ¼Ϊ��\n");
+	}
+	else
+	{
+		int i = 0;
+		printf("%20s\t%5s\t%4s\t%13s\t%20s\n", "����", "�Ա�", "����", "�绰", "��ַ");
+		for (i = 0; i < ps->size; i++)
+		{
+			printf("%20s\t%5s\t%4d\t%13s\t%20s\n",
+				ps->date[i].name,
+				ps->date[i].sex,
+				ps->date[i].age,
+				ps->date[i].tel,
+				ps->date[i].address);
+		}
+	}
+}
+void Deletecontact(struct Contact* ps)
+{
+	char s[MAX_NAME];
+	int i = 0;
+	printf("�����뱻ɾ���˵�����\n");
+	scanf_s("%s", s, MAX_NAME);
+	for (i = 0; i < ps->size; i++)
+	{
+		if (0 == strcmp(ps->date[i].name, s))
+		{
+			break;
+		}
+	}
+		if (i == ps->size)
+		{
+			printf("Ҫɾ�����˲�����\n");
+		}
+		else
+		{
+			int j = 0;
+			for (j = i; j < ps->size - 1; j++)
+			{
+				ps->date[j] = ps->date[j + 1];
+			}
+			ps->size--;
+			printf("ɾ���ɹ�\n");
+		}
+}
+void Searchcontact(struct Contact* ps)
+{
+	printf("������Ҫ�����˵�����\n");
+	char s[20];
+	int i = 0;
+	scanf_s("%s", s, MAX_NAME);
+	for (i = 0; i < ps->size; i++)
+	{
+		if (0 == strcmp(ps->date[i].name, s))
+		{
+			break;
+		}
+	}
+	if (i == ps->size)
+	{
+		printf("Ҫ���ҵ��˲�����\n");
+	}
+	else
+	{
+		printf("%20s\t%5s\t%4s\t%13s\t%20s\n", "����", "�Ա�", "����", "�绰", "��ַ");
+		printf("%20s\t%5s\t%4d\t%13s\t%20s\n",
+			ps->date[i].name,
+			ps->date[i].sex,
+			ps->date[i].age,
+			ps->date[i].tel,
+			ps->date[i].address);
+	}
+}
+void Modifycontact(struct Contact* ps)
+{
+	char s[20];
+	int i = 0;
+	printf("�����뱻�滻�˵�����\n");
+	scanf_s("%s", s, MAX_NAME);
+	for (i = 0; i < ps->size; i++)
+	{
+		if (strcmp(ps->date[i].name, s) == 0)
+		{
+			break;
+		}
+	}
+	if (i == ps->size)
+	{
+		printf("���滻���˲�����\n");
+	}
+	else
+	{
+		printf("�������滻������\n");
+		scanf_s("%s", (ps->date[i].name), 20);
+		printf("�������滻���Ա�\n");
+		scanf_s("%s", ps->date[i].sex, 5);
+		printf("�������滻������\n");
+		scanf_s("%d", &(ps->date[i].age));
+		printf("�������滻�˵绰\n");
+		scanf_s("%s", ps->date[i].tel, 13);
+		printf("�������滻�˵�ַ\n");
+		scanf_s("%s", (ps->date[i].address), 20);
+		printf("�滻���\n");
+	}
+}
+void Sortcontact(struct Contact* ps)
+{
+	int i, j, min, temp;
+	for (i = 0; i < ps->size; i++)
+	{
+		min = i;
+		for (j = i; j < ps->size - 1; j++)
+		{
+			if (ps->date[j].age > ps->date[j + 1].age)
+			{
+				min = ps->date[j + 1].age;
+			}
+		}
+		if (min != i)
+		{
+			temp = ps->date[i].age;
+			ps->date[i].age = ps->date[min].age;
+			ps->date[min].age = temp;
+		}
+	}
+}
+
+int main()
+{
+	int input;
+	struct Contact con;//���1000���˵���Ϣ
+	InitContact(&con);//��ʼ��ͨѶ¼
+	do
+	{
+		meau();
+		printf("��ѡ������ʵ�ֵĹ���\n");
+		scanf_s("%d", &input);
+		switch (input)
+		{
+		case 0:
+			printf("�˳�ͨѶ¼\n");
+			break;
+		case 1:
+		{
+			AddContact(&con);
+			break;
+		}
+		case 2:
+		{
+			Deletecontact(&con);
+			break;
+		}
+		case 3:
+		{
+			Showcontact(&con);
+			break;
+		}
+		case 4:
+		{
+			Modifycontact(&con);
+			break;
+		}
+		case 5:
+		{
+			Searchcontact(&con);
+			break;
+		}
+		case 6:
+		{
+			Sortcontact(&con);
+			break;
+		}
+		default:
+		{
+			printf("�����������������\n");
+			continue;
+		}
+		}
+	} while (input);
+
+	return 0;
+}
