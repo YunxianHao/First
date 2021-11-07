@@ -1,0 +1,46 @@
+#include<stdio.h>
+void Quicksort(int arry[], int L, int R)
+{
+	if (L >= R)
+		return;
+	int left = L, right = R;
+	int pivot = arry[left];
+	while (left < right)
+	{
+		while (left < right && arry[right] >= pivot)
+		{
+			right--;
+		}
+		if (left < right)
+		{
+			arry[left] = arry[right];
+		}
+		while (left < right&& arry[left] <= pivot)
+		{
+			left++;
+		}
+		if (left < right)
+		{
+			arry[right] = arry[left];
+		}
+		if (left >= right)
+		{
+			arry[left] = pivot;
+		}
+	}
+	Quicksort(arry, L, right - 1);
+	Quicksort(arry, right + 1, R);
+}
+int main()
+{
+	int L, R;
+	int arr[7] = { 2,5,1,9,8,4,3 };
+	L = 0;
+	R = 6;
+	Quicksort(arr, L, R);
+	for (int i = 0; i < 7; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	return 0;
+}
