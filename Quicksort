@@ -1,0 +1,52 @@
+#include<stdio.h>
+#include<string.h>
+void Quicksort(int arr[], int len)
+{
+	if (len < 2)
+		return;
+	int left, right, mid;
+	mid = arr[0];
+	left = 0, right = len - 1;
+	int move = 2;
+	while (left < right)
+	{
+		if (move == 2)
+		{
+			if (arr[right] >= mid)
+			{
+				right--;
+				continue;
+			}
+			arr[left] = arr[right];
+			left++;
+			move = 1;
+			continue;
+		}
+		if (move == 1)
+		{
+			if (arr[left] <= mid)
+			{
+				left++;
+				continue;
+			}
+			arr[right] = arr[left];
+			right--;
+			move = 2;
+			continue;
+		}
+	}
+	arr[left] = mid;
+	Quicksort(arr, left);
+	Quicksort(arr + left + 1, len - left - 1);
+}
+int main()
+{
+	int arr[7] = { 7,5,6,3,1,2,4 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	Quicksort(arr, sz);
+	for (int i = 0; i < sz; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	return 0;
+}
