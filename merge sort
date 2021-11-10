@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// ������������ӡ����
+void print_arr(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    putchar('\n');
+}
+
+// �ϲ�
+void merge(int arr[], int tempArr[], int left, int mid, int right)
+{
+    // ����������һ��δ�����Ԫ��
+    int l_pos = left;
+    // ����Ұ�����һ��δ�����Ԫ��
+    int r_pos = mid + 1;
+    // ��ʱ����Ԫ�ص��±�
+    int pos = left;
+
+    // �ϲ�
+    while (l_pos <= mid && r_pos <= right)
+    {
+        if (arr[l_pos] < arr[r_pos]) // �������һ��ʣ��Ԫ�ظ�С
+            tempArr[pos++] = arr[l_pos++];
+        else // �Ұ�����һ��ʣ��Ԫ�ظ�С
+            tempArr[pos++] = arr[r_pos++];
+    }
+
+    // �ϲ������ʣ���Ԫ��
+    while (l_pos <= mid)
+        tempArr[pos++] = arr[l_pos++];
+
+    // �ϲ��Ұ���ʣ���Ԫ��
+    while (r_pos <= right)
+        tempArr[pos++] = arr[r_pos++];
+
+    // ����ʱ�����кϲ����Ԫ�ظ��ƻ�ԭ��������
+    while (left <= right)
+    {
+        arr[left] = tempArr[left];
+        left++;
+    }
+}
+
+// �鲢����
+void msort(int arr[], int tempArr[], int left, int right)
+{
+    // ���ֻ��һ��Ԫ�أ���ô�ò���Ҫ��������
+    // ֻ��һ��Ԫ�ص����򣬱�����������ģ�ֻ��Ҫ���鲢����
+    if (left < right)
+    {
+        // ���м��
+        int mid = (left + right) / 2;
+        // �ݹ黮�������
+        msort(arr, tempArr, left, mid);
+        // �ݹ黮���Ұ���
+        msort(arr, tempArr, mid + 1, right);
+        // �ϲ��Ѿ�����Ĳ���
+        merge(arr, tempArr, left, mid, right);
+    }
+}
+
+// �鲢�������
+void merge_sort(int arr[], int n)
+{
+    // ����һ����������
+    int* tempArr = (int*)malloc(n * sizeof(int));
+    if (tempArr) // �����������ɹ�
+    {
+        msort(arr, tempArr, 0, n - 1);
+        free(tempArr);
+    }
+    else
+    {
+        printf("error: failed to allocate memory");
+    }
+}
+
+int main()
+{
+    int arr[] = { 9, 5, 2, 7, 12, 4, 3, 1, 11 };
+    int n = 9;
+    print_arr(arr, n);
+
+    merge_sort(arr, n);
+    print_arr(arr, n);
+
+    return 0;
+}
