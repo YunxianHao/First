@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+#define Size 5
+typedef struct Table//Define structure
+{
+	int* head;
+	int length;
+	int size;
+}table;
+table InitTable()//Initialization function
+{
+	table t;
+	t.head = (int*)malloc(sizeof(int));//Construct an empty sequential table to dynamically allocate memory.
+	if (!t.head)//�ж�����ʧ�����
+	{
+		printf("initialization failed\n");
+		exit(0);
+	}
+	t.length = 0;
+	t.size = Size;
+	return t;
+}
+void displayTable(table t)
+{
+	int i;
+	for (i = 0; i < t.length; i++)
+	{
+		printf("%d ", t.head[i]);
+	}
+	printf("\n");
+}
+int main()
+{
+	int i;
+	table t = InitTable();//Initialization sequence table
+	for (i = 1; i <= Size; i++)
+	{
+		t.head[i - 1] = i;
+		t.length++;
+	}
+	printf("The elements stored in the sequence table are \n");
+	displayTable(t);
+	return 0;
+}
