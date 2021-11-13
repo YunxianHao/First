@@ -1,0 +1,54 @@
+#include<stdio.h>
+#include<string.h>
+#define N 5
+struct student                                 //����ṹ��student
+{
+    char name[20];
+    int score1;
+    int score2;
+    int score3;
+    float avg;
+};
+struct student stu[N];                         //ȫ�ֶ���ṹ���������
+void Datesort()
+{
+    int i, j, temp;
+    char a[20], b[20];
+    for (i = 0; i < N - 1; i++)                         //ð�ݷ�����
+    {
+        for (j = i + 1; j < N; j++)
+        {
+            if (stu[i].avg > stu[j].avg)
+            {
+                temp = stu[i].avg;             //�����ɼ�
+                stu[i].avg = stu[j].avg;
+                stu[j].avg = temp;
+                strcpy_s(a, stu[i].name);       //�������� ���ַ����ĸ��ƺ���strcpy����������ǰ��Ϊ�ļ�ͷ������string.h����a=stu[i].name��������ʽ���޷�ʵ�ָ��Ƶġ���
+                strcpy_s(b, stu[j].name);
+                strcpy_s(stu[j].name, a);
+                strcpy_s(stu[i].name, b);
+            }
+        }
+    }
+}
+void main()
+{
+    int i;
+    printf("please enter %d students' names and scores,\n",N);
+    for (i = 0; i < N; i++)
+    {
+        printf("Please input the %d student��s name\n",i+1);
+        scanf_s("%s", &stu[i].name,15);
+        printf("Please input the %d student��s first score\n",i+1);
+        scanf_s("%d", &stu[i].score1, 15);
+        printf("Please input the %d student��s second score\n",i+1);
+        scanf_s("%d", &stu[i].score2, 15);
+        printf("Please input the %d student��s third scpre\n",i+1);
+        scanf_s("%d", &stu[i].score3,15);
+        stu[i].avg = (stu[i].score1 + stu[i].score2 + stu[i].score3) * 1.0 / 3;
+    }
+    Datesort();                               //����Datesort()����������������
+    printf("name     score1     score2     score3     avg\n");
+    for (i = 0; i < N; i++)                          //�������������
+        printf("%s     %d     %d     %d     %f\n", stu[i].name, stu[i].score1, stu[i].score2,stu[i].score3, stu[i].avg);
+}
