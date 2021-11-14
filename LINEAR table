@@ -1,0 +1,143 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define Size 5//��Size���к궨�壬��ʾ����ռ�Ĵ�С
+//InitList(*L):��ʼ������������һ���յ����Ա�*
+//ListEmpty(L):�����Ա�Ϊ�գ�����true�����򷵻�false
+//ClearList(*L):���Ա����
+//GetElem(L,i,*e):�����Ա�L�еڸ�λ�÷��ظ�e
+//LocateElem(L,e):�����Ա�L�в����붨��e��ȵ�Ԫ�أ����ҳɹ���������Ӧ�ĺţ����򣬷���0*
+//ListInsert(*L,i,e):�����Ա���i��λ�ò���Ԫ��e*
+//ListDelete(*L,i,*e):ɾ�����Ա��еĵ�i��Ԫ�أ�����e������ֵ*
+//Listlength(L):�������Ա�L��Ԫ�ظ���
+//һ.˳����ĳ�ʼ��
+//1.˳�������Ĵ洢����
+//2.˳����ĳ��ȣ�Ҳ���Ǳ��д洢���ݵ�Ԫ��
+typedef struct Table
+{
+	int* head;//������һ����Ϊhead�ĳ��Ȳ�ȷ�������飬Ҳ�ж�̬����
+	int length;//��¼��ǰ˳����ĳ���
+	int size;//��¼˳�������Ĵ洢����
+}table;
+////��Ҫ���¹�����
+////1.��head��̬���������㹻��������ռ�
+////2.��size��length����ֵ
+// ��.˳�������Ԫ��
+// 1.�������λ�ã�
+// 1.���뵽˳����ı�ͷ
+// 2.�ڱ����м�λ�ò���Ԫ��
+// 3.β��˳���������Ԫ�أ���Ϊ˳����е����һ��Ԫ��
+// ��Ҫ˼·��ͨ���������ҵ���������Ԫ��Ҫ�����λ�ã�Ȼ������������������
+// 1.��Ҫ����Ԫ�ص�λ���Լ�������Ԫ������ƶ�һ��λ��
+// 2.��Ԫ�طŵ��ڳ�����λ����
+//���뺯�������У�elemΪ�����Ԫ�أ�addΪ���뵽˳�����λ��
+// ��.˳���ɾ��Ԫ��
+// 1.�ҵ�Ŀ��Ԫ�أ��������������Ԫ��������ǰ�ƶ�һ��λ��
+// ��.˳�������Ԫ��
+// ���ɶ����㷨���ң�����ֲ����㷨����ֵ�����㷨
+ //���Һ���������elem��ʾҪ���ҵ�����Ԫ�ص�ֵ
+ //��.˳�������Ԫ��
+ // ʵ�ֹ��̣�
+ // 1.�ҵ�Ԫ��Ŀ��ֵ
+ // 2.ֱ���޸�Ԫ��ֵ
+int selectTable(table t, int elem)
+{
+	for (int i = 0; i < t.length; i++)
+	{
+		if (t.head[i] == elem)
+		{
+			return i + 1;
+		}
+	}
+	return -1;
+}
+table amendTable(table t, int elem, int newElem)
+{
+	int add = selectTable(t, elem);
+	t.head[add - 1] = newElem;
+	return t;
+}
+table delTable(table t, int add)
+{
+	if (add > t.length || add < 1)
+	{
+		printf("��ɾ����λ������\n");
+		return t;
+	}
+	for (int i = add; i < t.length; i++)
+	{
+		t.head[i - 1] = t.head[i];
+	}
+	t.length--;
+	return t;
+}
+table addTable(table t, int elem, int add)
+{
+	//�жϲ��뱾���Ƿ�������⣨�������Ԫ��λ�ñ��ĳ���+1���󣬻��߲����λ�ñ��������ڣ������˳���
+	if (add > t.length + 1 || add < 1)
+	{
+		printf("����λ��������\n");
+		return t;
+	}
+	//���������ʱ�����ȿ�˳����Ƿ��ж���Ĵ洢�ռ��ṩ�������Ԫ�أ����û�У�����Ҫ����
+	if (t.length == t.size)
+	{
+		t.head = (int*)realloc(t.head, (t.size + 1) * sizeof(int));
+		if (!t.head)
+		{
+			printf("�洢����ʧ��\n");
+			return t;
+		}
+		t.size += 1;
+	}
+	//�����������Ҫ���Ӳ���λ�ÿ�ʼ�ĺ���Ԫ�أ��������
+	for (int i = t.length - 1; i >= add - 1; i--)
+	{
+		t.head[i + 1] = t.head[i];
+	}
+	//������ɺ�ֱ�ӽ�����Ԫ�ز��룬���ӵ�˳�����Ӧλ��
+	t.head[add - 1] = elem;
+	t.length++;
+	return t;
+}
+
+table initTable()//�˺����ķ���ֵ��һ���Ѿ���ʼ����ɵ�˳���
+{
+	table t;
+	t.head = (int*)malloc(Size * sizeof(int));
+	if (!t.head)
+	{
+		printf("��ʼ��ʧ��\n");
+		exit(0);
+	}
+	t.length = 0;//�ձ��ĳ��ȳ�ʼ��Ϊ0
+	t.size = Size;//�ձ��ĳ�ʼ�洢�ռ�ΪSize
+	return t;
+}
+void displayTable(table t)
+{
+	for (int i = 0; i < t.length; i++)
+	{
+		printf("%d ", t.head[i]);
+	}
+}
+int main()
+{
+	table t = initTable();
+	//��˳���������Ԫ��
+	for (int i = 1; i <= Size; i++)
+	{
+		t.head[i - 1] = i;
+		t.length++;
+	}
+	printf("˳����д洢��Ԫ�طֱ��ǣ�\n");
+	displayTable(t);
+	table t1 = addTable(t, 6, 5);
+	displayTable(t1);
+	table t2 = delTable(t, 5);
+	displayTable(t2);
+	int c = selectTable(t, 3);
+	printf("%d ", c);
+	table t3 = amendTable(t, 5, 6);
+	displayTable(t3);
+	return 0;
+}
