@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<stdlib.h>
+//��Ԫ��㣺��һ���洢���ݵ�ͷ���
+//һ.�����ĳ�ʼ��
+//����һ��������Ҫ���¹�����
+//1.����һ��ͷָ�루����б�Ҫ����������һ��ͷ��㣩
+//2.��������洢���ݵĽڵ㣬�ڴ����Ĺ����У�Ҫ��ʱ����ǰ���ڵ㽨���߼���ϵ
+//����һ���洢{1,2��3,4}����ͷ��������
+typedef struct Link
+{
+	int elem;//����������
+	struct Link* next;//����ָ����ָ��ֱ�Ӻ��Ԫ��
+}link;//linkΪ�ڵ�����ÿ���ڵ㶼��һ��link�ṹ��
+link* initLink()
+{
+	link* p = NULL;//����ͷָ��
+	link* temp = (link*)malloc(sizeof(link));//������Ԫ���
+	//��Ԫ����ʼ��
+	temp->elem = 1;
+	temp->next = NULL;
+	p = temp;//ͷָ��ָ����Ԫ���
+	//�ӵڶ����ڵ㿪ʼ����
+	for (int i = 2; i < 5; i++)
+	{
+		//����һ���½ڵ㲢��ʼ��
+		link* a = (link*)malloc(sizeof(link));
+		a->elem = i;
+		a->next = NULL;
+		//��temp�ڵ����½�����a�ڵ㽨���߼���ϵ
+		temp->next = a;
+		//ָ��tempÿ�ζ�ָ�������������һ���ڵ㣬��ʵ����a�ڵ㣬����дtemp=aҲ��
+		temp = temp->next;
+		//���ؽ����Ľڵ㣬ֻ����ͷָ��p���ɣ�ͨ��ͷָ����ҵ���������
+	}
+	return p;
+}
+void display(link* p)
+{
+	link* temp = p;//��tempָ������ָ��ͷ���
+	//ֻҪtempָ��ָ��Ľڵ���next����NULL����ִ��������
+	while (temp)
+	{
+		printf("%d", temp->elem);
+		temp=temp->next;
+	}
+	printf("\n");
+}
+int main()
+{
+	//��ʼ������
+	printf("��ʼ������Ϊ��\n");
+	link* p = initLink();
+	display(p);
+	return 0;
+}
