@@ -1,0 +1,226 @@
+#include<stdio.h>
+#include<time.h>
+#include<stdlib.h>
+#define ROW 3
+#define COL 3
+int Isfull(char board[ROW][COL], int row, int col)
+{
+	int i, j;
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < col; j++)
+		{
+			if (board[i][j] == ' ')
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+char Iswin(char board[ROW][COL], int row, int col)
+{
+	for (int i = 0; i < row; i++)
+	{
+		if (board[i][0] == '*' && board[i][1] == '*' && board[i][2] == '*')
+		{
+			return 'Q';
+		}
+		if (board[i][0] == '#' && board[i][1] == '#' && board[i][2] == '#')
+		{
+			return 'C';
+		}
+	}
+		for (int j = 0; j < col; j++)
+		{
+			if (board[0][j] == '*' && board[1][j] == '*' && board[2][j] == '*')
+			{
+				return 'Q';
+			}
+			if (board[0][j] == '#' && board[1][j] == '#' && board[2][j] == '#')
+			{
+				return 'C';
+			}
+		}
+			if (board[0][0] == '*' && board[1][1] == '*' && board[2][2] == '*')
+			{
+				return 'Q';
+			}
+			if (board[0][0] == '#' && board[1][1] == '#' && board[2][2] == '#')
+			{
+				return 'C';
+			}
+			if (board[0][2] == '#' && board[1][1] == '#' && board[2][0] == '#')
+			{
+				return 'C';
+			}
+			if (board[0][2] == '*' && board[1][1] == '*' && board[2][0] == '*')
+			{
+				return 'Q';
+			}
+			if (1 == Isfull(board, ROW, COL))
+			{
+				return 'P';
+			}
+			else
+				return'E';
+		}
+void computer(char board[ROW][COL], int row, int col)
+{
+	printf("��������\n");
+	while (1)
+	{
+		int x = rand() % row;
+		int y = rand() % col;
+		if (x >= 0 && y >= 0 && x <= ROW && y < COL)
+		{
+			if (board[x][y] == ' ')
+			{
+				board[x][y] = '#';
+				break;
+			}
+		}
+	}
+	printf("\n");
+}
+void player(char board[ROW][COL], int row, int col)
+{
+	int x, y;
+	while (1)
+	{
+		printf("������Ҫ���������\n");
+		scanf_s("%d", &x);
+		scanf_s("%d", &y);
+		if (x <= row && y <= col && y >= 1 && x >= 1)
+		{
+			if (board[x - 1][y - 1] == ' ')
+			{
+				board[x - 1][y - 1] = '*';
+				break;
+			}
+			else
+				printf("��λ���ѱ�ռ��\n");
+		}
+		else
+		{
+			printf("����Υ��������������\n");
+		}
+	}
+}
+void Display(char board[ROW][COL], int row, int col)
+{
+	int i, j;
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < col; j++)
+		{
+			printf(" %c ", board[i][j]);
+			if (j < col - 1)
+			{
+				printf("|");
+			}
+		}
+		printf("\n");
+		if (i < row)
+		{
+			for (j = 0; j < col; j++)
+			{
+				printf("___");
+				if (j < col - 1)
+				{
+					printf("|");
+				}
+			}
+			printf("\n");
+		}
+	}
+	printf("\n");
+	printf("\n");
+}
+void Init(char board[ROW][COL], int row, int col)
+{
+	int i, j;
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < col; j++)
+		{
+			board[i][j] = ' ';
+		}
+	}
+}
+void game()
+{
+	
+		char ret;
+		char board[ROW][COL] = { 0 };
+		Init(board, ROW, COL);//��ʼ������
+		Display(board, ROW, COL);//��ӡ����
+		while (1)
+		{
+			player(board, ROW, COL);//�������
+			Display(board, ROW, COL);
+			ret = Iswin(board, ROW, COL);
+			if (ret != 'E')
+			{
+				break;
+			}
+			computer(board, ROW, COL);//��������
+			Display(board, ROW, COL);
+			ret = Iswin(board, ROW, COL);
+			if (ret != 'E')
+			{
+				break;
+			}
+		}
+			if (ret == 'Q')
+			{
+				printf("���ʤ������ϲ��Ӯ��\n");
+			}
+			if (ret == 'C')
+			{
+				printf("����ʤ�������ź�������\n");
+			}
+			if (ret == 'P')
+			{
+				printf("ƽ����\n");
+			}
+		}
+void meau()
+{
+	printf("***************1.Play Games******************\n");
+	printf("***************0.Exit Games******************\n");
+	printf("*********************************************\n");
+}
+void test()
+{
+	int input;
+	srand((unsigned int)time(NULL));
+	do
+	{
+		meau();
+		printf("����������\n");
+		scanf_s("%d", &input);
+		switch (input)
+		{
+		case 1:
+		
+			game();
+			break;
+		
+		case 0:
+		
+			printf("��Ϸ����\n");
+			break;
+		
+		default:
+		
+			printf("�����������������\n");
+	
+		}
+	} while (input);
+}
+int main()
+{
+	test();
+	return 0;
+}
