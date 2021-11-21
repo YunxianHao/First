@@ -1,0 +1,314 @@
+#include<stdio.h>
+#include<string.h>
+#define MAX 1000
+ struct personal
+{
+	long long int stunum;//ѧ��
+	char name[20];//����
+	char sex[5];//�Ա�
+	int score1;//��һ��ѧ�Ƶĳɼ�
+	int score2;//�ڶ���ѧ�Ƶĳɼ�
+	int score3;//������ѧ�Ƶĳɼ�
+	int sum;//ѧ���ܳɼ�
+};
+ struct Student
+ {
+	 struct personal data[MAX];
+	 int size;
+ };
+ void Initinformation(struct Student* ps)
+ {
+	 memset(ps->data, 0, sizeof(ps->data));
+	 ps->size = 0;
+ }
+ void AddInformation(struct Student* ps)//¼��ѧ����Ϣ
+ {
+	 int n;
+	 printf("���������ӵ�ѧ������\n");
+	 scanf_s("%d", &n);
+	 for (int i = 0; i <n; i++)
+	 {
+		 printf("������ѧ��ѧ��\n");
+		 scanf_s("%lld", &(ps->data[i].stunum));
+		 printf("������ѧ������\n");
+		 scanf_s("%s", (ps->data[i].name), 20);
+		 printf("������ѧ���Ա�\n");
+		 scanf_s("%s", ps->data[i].sex, 5);
+		 while (1)
+		 {
+			 printf("������ѧ����һ��ѧ�Ƶĳɼ�\n");
+			 scanf_s("%d", &(ps->data[i].score1));
+			 if ((ps->data[i].score1) > 100)
+			 {
+				 printf("�ɼ������������������\n");
+				 continue;
+			 }
+			 break;
+		 }
+		 while (1)
+		 {
+			 printf("������ѧ���ڶ���ѧ�Ƶĳɼ�\n");
+			 scanf_s("%d", &(ps->data[i].score2));
+			 if ((ps->data[i].score2) > 100)
+			 {
+				 printf("�ɼ������������������\n");
+				 continue;
+			 }
+			 break;
+		 }
+		 while (1)
+		 {
+			 printf("������ѧ��������ѧ�Ƶĳɼ�\n");
+			 scanf_s("%d", &(ps->data[i].score3));
+			 if ((ps->data[i].score2) > 100)
+			 {
+				 printf("�ɼ������������������\n");
+				 continue;
+			 }
+			 break;
+		 }
+		 printf("¼�����\n");
+		 ps->data[i].sum = (((ps->data[i].score1) + (ps->data[i].score2) + (ps->data[i].score3)));
+		 ps->size++;
+	 }
+ }
+ void ShowInformation(struct Student* ps)//��ʾѧ����Ϣ
+ {
+	 printf("ѧ��ѧ��          ����          �Ա�          ��һ�Ƴɼ�          �ڶ��Ƴɼ�          �����Ƴɼ�          �ܷ�");
+	 printf("\n");
+	 for (int i = 0; i < (ps->size); i++)
+	 {
+		 printf("%lld ",( ps->data[i].stunum));
+		 printf("%10s  ", (ps->data[i].name));
+		 printf("%10s  ", (ps->data[i].sex));
+		 printf("%20d  ", (ps->data[i].score1));
+		 printf("%15d  ", (ps->data[i].score2));
+		 printf("%15d  ", (ps->data[i].score3));
+		 printf("%18d  ", (ps->data[i].sum));
+		 printf("\n");
+	 }
+ }
+ void Search_Stunum(struct Student* ps)//��ѧ�Ų���
+ {
+	 long long int num;
+	 int i;
+	 printf("������ѧ����ѧ��\n");
+	 scanf_s("%lld", &num);
+	 for ( i = 0; i < ps->size; i++)
+	 {
+		 if ((ps->data[i].stunum) == num)
+		 {
+			 printf("�ҵ��ˣ�ѧ������Ϣ����: \n");
+			 printf("ѧ��ѧ��          ����          �Ա�          ��һ�Ƴɼ�          �ڶ��Ƴɼ�          �����Ƴɼ�          �ܷ�");
+			 printf("\n");
+			 printf("%lld ", (ps->data[i].stunum));
+			 printf("%10s  ", (ps->data[i].name));
+			 printf("%10s  ", (ps->data[i].sex));
+			 printf("%20d  ", (ps->data[i].score1));
+			 printf("%15d  ", (ps->data[i].score2));
+			 printf("%15d  ", (ps->data[i].score3));
+			 printf("%18d  ", (ps->data[i].sum));
+			 printf("\n");
+			 break;
+		 }
+	 }
+	 if (i == (ps->size) && i != 1)
+	 {
+		 printf("ѧ����������������������\n");
+	 }
+ }
+ void SortInformation(struct Student* ps)//���ֵܷݼ�����
+ {
+	 int i, j, max, temp;
+	 char tmp[20];
+	 for (i = 0; i < (ps->size); i++)
+	 {
+		 max = i;
+		 for (j = i; j < (ps->size); j++)
+		 {
+			 if ((ps->data[max].sum) < (ps->data[j].sum))
+			 {
+				 max = j;
+			 }
+		 }
+		 if (max != i)
+		 {
+			 //�ֽܷ���
+			 temp = (ps->data[max].sum);
+			 (ps->data[max].sum) = (ps->data[i].sum);
+			 (ps->data[i].sum) = temp;
+			 //ѧ�Ž���
+			 temp = (ps->data[max].stunum);
+			 (ps->data[max].stunum) = (ps->data[i].stunum);
+			 (ps->data[i].stunum) = temp;
+			 //��������
+			 strcpy_s(tmp, (ps->data[max].name));
+			 strcpy_s((ps->data[max].name), (ps->data[i].name));
+			 strcpy_s((ps->data[i].name), tmp);
+			 //�Ա𽻻�
+			 strcpy_s(tmp, (ps->data[max].sex));
+			 strcpy_s((ps->data[max].sex), (ps->data[i].sex));
+			 strcpy_s((ps->data[i].sex), tmp);
+			 //��һ��ѧ�ƽ���
+			 temp = (ps->data[max].score1);
+			 (ps->data[max].score1) = (ps->data[i].score1);
+			 (ps->data[i].score1) = temp;
+			 //�ڶ���ѧ�ƽ���
+			 temp = (ps->data[max].score2);
+			 (ps->data[max].score2) = (ps->data[i].score2);
+			 (ps->data[i].score2) = temp;
+			 //������ѧ�ƽ���
+			 temp = (ps->data[max].score3);
+			 (ps->data[max].score3) = (ps->data[i].score3);
+			 (ps->data[i].score3) = temp;
+		 }
+	 }
+	 printf("�ܷ��������£�\n");
+	 for (i = 0; i < (ps->size); i++)
+	 {
+		 printf("ѧ��ѧ��          ����          �Ա�          ��һ�Ƴɼ�          �ڶ��Ƴɼ�          �����Ƴɼ�          �ܷ�");
+		 printf("\n");
+		 printf("%lld ", (ps->data[i].stunum));
+		 printf("%10s  ", (ps->data[i].name));
+		 printf("%10s  ", (ps->data[i].sex));
+		 printf("%20d  ", (ps->data[i].score1));
+		 printf("%15d  ", (ps->data[i].score2));
+		 printf("%15d  ", (ps->data[i].score3));
+		 printf("%18d  ", (ps->data[i].sum));
+		 printf("\n");
+	 }
+ }
+ void Search_Name(struct Student* ps)//����������
+ {
+	 int i = 0;
+	 char name[20];
+	 printf("������Ҫ���ҵ�ѧ��������\n");
+	 scanf_s("%s", name, 20);
+	 for (i = 0; i < (ps->size); i++)
+	 {
+		 if (strcmp(name, (ps->data[i].name)) == 0)
+		 {
+			 printf("�ҵ��ˣ�ѧ������Ϣ���£�\n");
+			 printf("ѧ��ѧ��          ����          �Ա�          ��һ�Ƴɼ�          �ڶ��Ƴɼ�          �����Ƴɼ�          �ܷ�");
+			 printf("\n");
+			 printf("%lld ", (ps->data[i].stunum));
+			 printf("%10s  ", (ps->data[i].name));
+			 printf("%10s  ", (ps->data[i].sex));
+			 printf("%20d  ", (ps->data[i].score1));
+			 printf("%15d  ", (ps->data[i].score2));
+			 printf("%15d  ", (ps->data[i].score3));
+			 printf("%18d  ", (ps->data[i].sum));
+			 printf("\n");
+			 break;
+		 }
+	 }
+	 if (i == (ps->size) && i != 1)
+	 {
+		 printf("������������������������\n");
+	 }
+ }
+ void FlunkScore(struct Student* ps)//���ųɼ����ϸ��
+ {
+	 int count = 0, count2 = 0;
+	 for (int i = 0; i < (ps->size); i++)
+	 {
+		 if ((ps->data[i].score1) < 60)
+		 {
+			 count++;
+		 }
+		 if ((ps->data[i].score2) < 60)
+		 {
+			 count++;
+		 }
+		 if ((ps->data[i].score3) < 60)
+		 {
+			 count++;
+		 }
+		 if (count >= 2)
+		 {
+			 printf("���ųɼ��������ѧ�����£�\n");
+			 printf("ѧ��ѧ��          ����          �Ա�          ��һ�Ƴɼ�          �ڶ��Ƴɼ�          �����Ƴɼ�          �ܷ�");
+			 printf("\n");
+			 printf("%lld ", (ps->data[i].stunum));
+			 printf("%10s  ", (ps->data[i].name));
+			 printf("%10s  ", (ps->data[i].sex));
+			 printf("%20d  ", (ps->data[i].score1));
+			 printf("%15d  ", (ps->data[i].score2));
+			 printf("%15d  ", (ps->data[i].score3));
+			 printf("%18d  ", (ps->data[i].sum));
+			 printf("\n");
+			 count2++;
+		 }
+	 }
+	 if (count2 == 0)
+	 {
+		 printf("û�в������ѧ��\n");
+	 }
+ }
+void meau()
+{
+	printf("************************************\n");
+	printf("1.¼��ѧ����Ϣ\n");
+	printf("2.��ʾѧ����Ϣ\n");
+	printf("3.��ѧ�Ų���\n");
+	printf("4.����������\n");
+	printf("5.���ֵܷݼ�����\n");
+	printf("6.������2��Ŀ�������ѧ����Ϣ\n");
+	printf("0.�˳�\n");
+	printf("************************************\n");
+}
+int main()
+{
+	int input;
+	struct Student stu;
+	Initinformation(&stu);
+	do
+	{
+		meau();
+		printf("�����빦�ܺ�0-6��");
+		scanf_s("%d", &input);
+		switch (input)
+		{
+		case 1:
+		{
+			AddInformation(&stu);
+			break;
+		}
+		case 2:
+		{
+			ShowInformation(&stu);
+			break;
+		}
+		case 3:
+		{
+			Search_Stunum(&stu);
+			break;
+		}
+		case 4:
+		{
+			Search_Name(&stu);
+			break;
+		}
+		case 5:
+		{
+			SortInformation(&stu);
+			break;
+		}
+		case 6:
+		{
+			FlunkScore(&stu);
+			break;
+		}
+		case 0:
+		{
+			break;
+		}
+		default:
+		{
+			printf("�����������������\n");
+			break;
+		}
+		}
+	} while (input);
+	return 0;
+}
